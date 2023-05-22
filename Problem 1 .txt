@@ -1,0 +1,76 @@
+Problem 1 :
+
+Solution - 
+Step 1) First of all, create a hashmap and store key-value of each charcter in the new task queue.
+
+Step 2) Check team members in old task queue starting from the current index of old task queue if that member is present in the new task queue using the hashmap. If it is present store the index of that member, else print 'NO MEMBER PRESENT'.
+
+Step 3) Find the count of that team member till that index and store it in a variable 'cnt.
+
+Step 4) Traverse in new queue and maintain a count variable,increment the count variable if character at that index equals character at the index in old queue. If that count variable equals to the variable 'cnt' at that index store that index and print that index.
+
+Code (C++):-
+
+int findIndex(vector<int> &oldQueue, int curIndex, vector<int> &newQueue)
+{
+   int oldQueueSize = oldQueue.size();
+   int newQueueSize = newQueue.size();
+   
+
+   unordered_map<char,int>m;
+
+      for(int i=0;i<newQueueSize;i++)
+        m[newQueue[i]]++;
+
+      // check member present or not
+      int ind=-1;
+      for(int i=curInd-1;i<oldQueueSize;i++)
+      {
+        if(m.find(oldQueue[i])!=m.end())
+        {
+          ind=i;
+          break;
+        }
+
+      }
+      
+      if(ind==-1)
+      {
+        return -1; // no member present
+      }
+      else
+      {
+        // finding index of the member in the new task queue
+        int cnt=0;
+        for(int i=0;i<=ind;i++)
+        {
+          if(oldQueue[i]==oldQueue[ind])
+            cnt++;
+        }
+        
+        int count=0;// stores frequency of the team member till a index
+        int new_ind=-1;
+        for(int i=0;i<newQueueSize;i++)
+        {
+            if(newQueue[i]==oldQueue[ind])
+            count++;
+
+            if(newQueue[i]==oldQueue[ind]&&cnt==count)
+            {
+              new_ind=i;
+              break;
+            }
+
+        }
+
+        return new_ind+1;
+      } 
+  
+}
+
+Time Complexity - O(size of oldQueue)
+
+Space Complexity -  O(size of newQueue) // for unordered map
+                    
+
+
